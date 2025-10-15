@@ -9,6 +9,10 @@ class PurchaseReport(models.Model):
         help='Cantidad ordenada menos cantidad recibida',
     )
 
-    def _select_additional_fields(self, fields):
-        fields['qty_pending'] = "(po_line.product_qty - po_line.qty_received)"
-        return super()._select_additional_fields(fields)
+    def _select(self):
+        # extendemos el SELECT SQL original
+        return super()._select() + ", (SUM(l.product_qty) - SUM(l.qty_received)) AS qty_pending"
+
+    def _group_by(self):
+        # mantenemos el group_by igual al original
+        return super()._group_by()
