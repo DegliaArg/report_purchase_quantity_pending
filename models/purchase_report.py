@@ -4,7 +4,7 @@ class PurchaseReport(models.Model):
     _inherit = 'purchase.report'
 
     difference_quantity = fields.Float(
-        string='Cantidad Pendiente',
+        string='Cantidad pendiente',
         readonly=True,
         help='Diferencia entre la cantidad ordenada y la cantidad recibida.',
         compute='_compute_difference_quantity',
