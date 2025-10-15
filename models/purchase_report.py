@@ -1,15 +1,17 @@
-from odoo import models, fields
+from odoo import models, fields, api
 
 class PurchaseReport(models.Model):
     _inherit = 'purchase.report'
 
-    qty_pending = fields.Float(
-        string='Cantidad pendiente',
+    difference_quantity = fields.Float(
+        string='Cantidad Pendiente',
         readonly=True,
-        help='Cantidad ordenada menos cantidad recibida'
+        help='Diferencia entre la cantidad ordenada y la cantidad recibida.',
+        compute='_compute_difference_quantity',
+        store=False,
     )
 
-    def _select_additional_fields(self, fields):
-        res = super()._select_additional_fields(fields)
-        res['qty_pending'] = "(SUM(l.product_qty) - SUM(l.qty_received))"
-        return res
+    @api.depends('qty_ordered', 'qty_received')
+    def _compute_difference_quantity(self):
+        for record in self:
+            record.difference_quantity = record.qty_ordered - record.qty_received
