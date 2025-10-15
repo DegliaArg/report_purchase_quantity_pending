@@ -1,4 +1,5 @@
 from odoo import models, fields
+from odoo.tools.sql import SQL
 
 class PurchaseReport(models.Model):
     _inherit = 'purchase.report'
@@ -10,9 +11,6 @@ class PurchaseReport(models.Model):
     )
 
     def _select(self):
-        # extendemos el SELECT SQL original
-        return super()._select() + ", (SUM(l.product_qty) - SUM(l.qty_received)) AS qty_pending"
-
-    def _group_by(self):
-        # mantenemos el group_by igual al original
-        return super()._group_by()
+        sql = super()._select()
+        sql.add(SQL(", (SUM(l.product_qty) - SUM(l.qty_received)) AS qty_pending"))
+        return sql
