@@ -1,2 +1,2 @@
 # report_purchase_quantity_pending
-Módulo Odoo que agrega el campo de cantidad pendiente (qty_pending) al reporte de compras (purchase.report).
+Odoo module that adds the pending quantity field (qty_pending) to the purchase report (purchase.report).
