@@ -8,7 +8,7 @@ class PurchaseReport(models.Model):
         readonly=True,
         help='Diferencia entre la cantidad ordenada y la cantidad recibida.',
         compute='_compute_difference_quantity',
-        store=False,
+        store=True,
     )
 
     @api.depends('qty_ordered', 'qty_received')
